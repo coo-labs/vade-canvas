@@ -43,7 +43,10 @@ jobs:
           PR_NODE_ID: ${{ github.event.pull_request.node_id }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          set -euo pipefail
+          # Auto-add is opportunistic — graceful skip on any failure mode
+          # (missing secret, PAT scope insufficient for this repo, project
+          # field write denied). The CI run does NOT fail; the PR proceeds.
+          set -uo pipefail
 
           if [ -z "${VADE_PROJECT_PAT:-}" ]; then
             echo "VADE_PROJECT_PAT not set — skipping project assignment for PR #$PR_NUMBER"
@@ -59,24 +62,29 @@ jobs:
 
           # addProjectV2ItemById is idempotent: returns the existing
           # edge if the item is already on the project.
-          ITEM_ID=$(gh api graphql \
+          add_out=$(gh api graphql \
             -f query='mutation($p:ID!,$c:ID!){addProjectV2ItemById(input:{projectId:$p,contentId:$c}){item{id}}}' \
             -F p="$PROJECT_ID" \
-            -F c="$PR_NODE_ID" \
-            --jq '.data.addProjectV2ItemById.item.id')
+            -F c="$PR_NODE_ID" 2>&1)
+          add_rc=$?
+          ITEM_ID=$(printf '%s' "$add_out" | jq -r '.data.addProjectV2ItemById.item.id // empty' 2>/dev/null || true)
 
-          if [ -z "$ITEM_ID" ]; then
-            echo "Failed to add PR #$PR_NUMBER to VADE project" >&2
-            exit 1
+          if [ "$add_rc" -ne 0 ] || [ -z "$ITEM_ID" ]; then
+            echo "auto-add: PR #$PR_NUMBER could not be added to VADE project (likely VADE_PROJECT_PAT lacks Pull Requests: Read on this repo). Continuing — this is non-blocking." >&2
+            echo "auto-add: gh output was: $add_out" >&2
+            exit 0
           fi
           echo "Added PR #$PR_NUMBER to VADE as item $ITEM_ID"
 
-          # Set Status=In Progress.
-          gh api graphql \
+          # Set Status=In Progress. Best-effort — log and continue on failure.
+          if ! gh api graphql \
             -f query='mutation($p:ID!,$i:ID!,$f:ID!,$o:String!){updateProjectV2ItemFieldValue(input:{projectId:$p,itemId:$i,fieldId:$f,value:{singleSelectOptionId:$o}}){projectV2Item{id}}}' \
             -F p="$PROJECT_ID" \
             -F i="$ITEM_ID" \
             -F f="$STATUS_FIELD_ID" \
-            -F o="$STATUS_IN_PROGRESS_OPT" >/dev/null
+            -F o="$STATUS_IN_PROGRESS_OPT" >/dev/null 2>&1; then
+            echo "auto-add: Status field write failed on item $ITEM_ID — continuing" >&2
+            exit 0
+          fi
 
           echo "Set Status=In Progress on item $ITEM_ID"
