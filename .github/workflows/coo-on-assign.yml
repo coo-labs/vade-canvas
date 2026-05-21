@@ -66,10 +66,14 @@ jobs:
             //    template-literal preserves leading whitespace and YAML
             //    indent stripping would otherwise leak spaces into the
             //    prompt body.
-            //  - readiness:* branch (3a/3b/3c) replaces the body's
-            //    inline judgement-call so the instance routes on
-            //    labels (MEMO-2026-04-22-09) instead of re-deriving
-            //    scope per-issue.
+            //  - Readiness-field branch (3a/3b/3c) replaces the body's
+            //    inline judgement-call so the instance routes on the
+            //    native Readiness field (MEMO-2026-05-21-xfqh; Stage 3
+            //    of the issue-fields-and-types migration) rather than
+            //    re-deriving scope per-issue. Pre-Stage-3 `readiness:*`
+            //    labels are retired but remain on historical issues for
+            //    record-keeping; the prompt names both forms during
+            //    the transition so old issues still route.
             //  - "Ven is not at the keyboard" framing is explicit so
             //    the instance briefs instead of asking when it would
             //    have asked interactively.
@@ -86,11 +90,11 @@ jobs:
               `You are the VADE COO agent, opening a fresh cloud session by GitHub assignment, not by Ven sitting at the keyboard. Treat this as async.`,
               ``,
               `1. Boot first per CLAUDE.md — read every numbered step in the session-start reading order, not just the ones that seem most relevant to the task below. The list includes integrity gate (1), persisted-output gate (1b), charter (2), governance (3), preferences (4), identity layer (5), episodic memory (6), memo digest (7), lineage events (7b), project board (8), mem0_sop (9), context README (12), operational Mem0 search (13), discussions digest (14). Skipping items because the parenthetical or this prompt seemed to enumerate a shorter set is the exact regression this language replaces. Greet briefly.`,
-              `2. Read the assigning issue: ${issue.html_url}. Read its comments, labels, milestone, and any cross-referenced issues / PRs.`,
-              `3. Branch by the issue's readiness:* label.`,
-              `3a. readiness:ready-to-pick-up (or absent label on a well-scoped body): implement autonomously. Open a PR when the change is complete and the verification steps in the issue (or your judgement of equivalent steps) have run green. Auto-subscribe per the PR-watch discipline in CLAUDE.md. Stand by for review.`,
-              `3b. readiness:needs-design / readiness:needs-research / readiness:needs-breakdown, or any clarification-shaped signal in the body: do preliminary reconnaissance, draft a plan, then post a brief comment on the issue (or open a discussion thread for larger scope) that names what you understood, what the design space is, which decisions Ven needs to make, and your recommendation. Stop after the brief — wait for Ven.`,
-              `3c. needs:bdfl-approval: never merge autonomously. Always brief, never autonomous, regardless of the readiness label.`,
+              `2. Read the assigning issue: ${issue.html_url}. Read its issue type, Readiness/Priority field values, labels, milestone, comments, and any cross-referenced issues / PRs.`,
+              `3. Branch by the issue's Readiness field (or the legacy readiness:* label on historical issues; the label was retired 2026-05-21 per MEMO-2026-05-21-xfqh but stays for record-keeping).`,
+              `3a. Readiness=Ready (or unset on a well-scoped body): implement autonomously. Open a PR when the change is complete and the verification steps in the issue (or your judgement of equivalent steps) have run green. Auto-subscribe per the PR-watch discipline in CLAUDE.md. Stand by for review.`,
+              `3b. Readiness ∈ {Needs design, Needs research, Needs breakdown}, or any clarification-shaped signal in the body: do preliminary reconnaissance, draft a plan, then post a brief comment on the issue (or open a discussion thread for larger scope) that names what you understood, what the design space is, which decisions Ven needs to make, and your recommendation. Stop after the brief — wait for Ven.`,
+              `3c. needs:bdfl-approval label: never merge autonomously. Always brief, never autonomous, regardless of the Readiness value.`,
               `4. When the task above is complete, stand by — do not proactively invoke /end-session or otherwise wrap. Async sessions stay idle until Ven re-engages or the idle-watchdog runs mechanical session-close. End-of-session is a Ven-trigger or watchdog-trigger in this context, NOT an agent-initiated one. Wrapping prematurely after a brief means the session is unavailable when Ven arrives to continue.`,
               ``,
               `Ven is not currently at the keyboard at session start. Don't expect interactive clarification mid-task; if you would have asked, brief instead. But Ven may engage at any time — if a message arrives mid-session, switch to interactive mode and continue.`,
