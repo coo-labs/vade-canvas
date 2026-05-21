@@ -87,46 +87,34 @@ jobs:
 
             1. Fetch the target issue via `Bash`:
 
-                   gh issue view <NUMBER> --repo vade-app/vade-core --json title,body,author,id
+                   gh issue view <NUMBER> --repo vade-app/vade-core --json title,body,author,id,labels,milestone
 
                The `id` field is the GraphQL node ID — keep it; step 5
-               needs it. Do NOT request `authorAssociation` (not a
-               valid `gh` JSON field).
+               needs it. The `labels` array (each entry has `.name`)
+               and `milestone.title` are what the opener already set
+               — step 4(b)'s wipe-detection compares against them.
+               Do NOT request `authorAssociation` (not a valid `gh`
+               JSON field).
 
-            2. Classify across the dimensions below (five label dimensions
-               plus one optional milestone). Canonical taxonomy:
+            2. Classify across the dimensions below. Canonical refs:
                https://github.com/vade-app/vade-coo-memory/blob/main/coo/label_taxonomy.md
+               + https://github.com/vade-app/vade-coo-memory/blob/main/coo/operations/issue-fields-and-types.md
 
-               - `type:*` — exactly one (mandatory):
-                   type:bug, type:feat, type:chore, type:docs,
-                   type:refactor, type:test, type:research, type:epic
+               **Retired dimensions** (do NOT apply these as labels):
+               `type:*`, `readiness:*`, `prio:*` were retired 2026-05-21
+               per MEMO-2026-05-21-xfqh. Native issue type is set by the
+               issue template's `type:` front-matter; Priority / Readiness
+               field values are bridged from the template's dropdown
+               widgets by `bridge-form-fields-trigger.yml`. Applying
+               the legacy labels on top is duplicate metadata — the bug
+               this workflow was fixed to stop doing
+               (vade-coo-memory#879).
 
-               - `area:*` — one or two (mandatory), from this repo's
-                 vocabulary: area:canvas, area:mcp, area:storage, area:auth, area:ui, area:cloud (plus the universal
-                 area:docs / area:ci / area:deploy available to every
-                 repo)
-
-               - `readiness:*` — exactly one (mandatory):
-                   readiness:ready — ONLY if the issue is well-scoped,
-                     the approach is clear, and there are no blockers.
-                     Strict bar. When in any doubt, do NOT pick ready.
-                   readiness:needs-design — the WHAT is clear but the
-                     HOW requires design work.
-                   readiness:needs-research — facts, requirements, or
-                     dependencies are unknown and must be investigated
-                     before coding.
-                   readiness:needs-breakdown — too large or under-
-                     specified to start on; must be decomposed into
-                     smaller actionable issues. DEFAULT FALLBACK for
-                     thin / vague / partially-written issues.
-
-               - `prio:*` — exactly one (mandatory):
-                   prio:P0 — explicit urgency, production-critical, or
-                     blocker for multiple agents/people.
-                   prio:P1 — important soon; unblocking near-term work.
-                   prio:P2 — DEFAULT for normal work.
-                   prio:P3 — nice-to-have, backlog, or "someday"
-                     phrasing.
+               - `area:*` — one or two, from this repo's vocabulary:
+                 area:canvas, area:mcp, area:storage, area:auth, area:ui, area:cloud
+                 (plus the universal area:docs / area:ci / area:deploy
+                 available to every repo). Skip if no area clearly
+                 applies.
 
                - qualifiers — apply each that matches (zero or more):
                    needs:bdfl-approval — decision requires the BDFL
@@ -213,39 +201,67 @@ jobs:
                  milestone clearly applies per its scope-rule AND
                  test, do NOT set one. Better empty than wrong.
 
-               Expect 3–5 labels total on a typical issue (one each
-               from type, readiness, prio; one or two area; zero or
-               more qualifiers). If you find yourself applying fewer
-               than 3, re-read the issue — you probably missed a
-               dimension.
+               Expect 0–3 labels total on a typical issue (one or two
+               area + zero or more qualifiers). Zero is a valid result
+               if no area clearly applies and no qualifier matches —
+               do not invent labels to hit a count.
 
-            3. **Apply all labels and milestone.** This step is
-               mandatory. Execute exactly this `Bash` command — one
-               `--add-label` flag per label from step 2, plus
-               `--milestone "<name>"` if (and only if) you selected
-               a milestone in step 2:
+               **Mode filter (gap-fill).** If a pre-existing label
+               from step 1 covers any dimension you classified, DROP
+               that classification (additive only — the opener's
+               choices win). For milestone, if `milestone.title` is
+               non-null in step 1's output, DROP your milestone
+               choice. The filtered set may be empty — that is OK.
+
+            3. **Apply the filtered classification (additive only).**
+               Execute this `Bash` command — one `--add-label` flag
+               per label that survived the mode filter, plus
+               `--milestone "<name>"` if a milestone choice survived:
 
                    gh issue edit <NUMBER> --repo vade-app/vade-core \
                      --add-label "<label1>" --add-label "<label2>" ... \
                      [--milestone "<milestone-name>"]
 
-               If `gh` reports a label does not exist in the repo,
-               first create it with `gh label create "<label>" --repo
-               vade-app/vade-core` and retry. If `gh` reports
-               the milestone doesn't exist, drop the `--milestone`
-               flag and proceed (do NOT create milestones — only the
-               names listed in step 2 are valid; selection mistakes
-               are silenced this way). Keep going until `gh issue
-               edit` exits 0.
+               If the filtered set is empty (nothing to add and no
+               milestone to set), SKIP this command entirely and
+               proceed to step 4. The project-add step still runs.
+
+               **Hard invariants:**
+               - NEVER use `--remove-label`.
+               - NEVER pass `--milestone ""` to clear a milestone.
+               - NEVER reason yourself into removing a pre-existing
+                 label or milestone.
+               - If `gh` reports a label does not exist in the repo,
+                 create it via `gh label create "<label>" --repo
+                 vade-app/vade-core` and retry.
+               - If `gh` reports the milestone doesn't exist, drop
+                 the `--milestone` flag and proceed. Do NOT create
+                 milestones — only the names listed in step 2 are
+                 valid; selection mistakes are silenced this way.
+
+               Keep going until `gh issue edit` exits 0 (or skip if
+               the filtered set is empty).
 
             4. **Verify labels and milestone** by running:
 
                    gh issue view <NUMBER> --repo vade-app/vade-core --json labels,milestone
 
-               and confirming `labels[*].name` contains every label
-               you intended to apply, and (if you selected a milestone)
-               `milestone.title` matches it. If any are missing,
-               retry step 3 for those.
+               Two checks:
+
+               (a) Confirm every label you actually wrote in step 3
+                   is present in `labels[*].name`, and (if you set a
+                   milestone) `milestone.title` matches. If any are
+                   missing, retry step 3 for those.
+
+               (b) **Wipe-detection.** Confirm every pre-existing
+                   label from step 1 is STILL in `labels[*].name`,
+                   and (if step 1 had a milestone) `milestone.title`
+                   is unchanged. If any pre-existing value is
+                   missing, that is a critical hard-invariant
+                   violation: report it explicitly in the final
+                   message — do NOT attempt to restore via further
+                   writes (the wipe already happened; surfacing it
+                   is what matters).
 
             5. **Add the issue to the VADE project.**
                Run this exact Bash block, replacing `<ISSUE_ID>` with
@@ -287,6 +303,11 @@ jobs:
             or body, do not post a comment, do not assign, do not
             close.
 
-            Final message: one line naming the labels (and milestone,
-            if any) now on the issue, one line on project state
-            (added / skipped / error).
+            Final message: one line on what the opener had set
+            (labels + milestone from step 1), one line on what step 3
+            actually wrote (labels + milestone, or "no-op — gap-fill
+            found nothing to add"), one line naming the final labels
+            (and milestone, if any) now on the issue, one line on
+            project state (added / skipped / error). If the
+            wipe-detection check in step 4(b) fired, lead with
+            `WIPE DETECTED: <details>`.
