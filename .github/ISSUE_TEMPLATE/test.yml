@@ -1,0 +1,72 @@
+name: Test
+description: Test coverage, fixtures, harness work.
+title: "Test: <short description>"
+type: Test
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Test
+
+        Test coverage additions, fixture management, harness work. For
+        the actual bug being tested use **Bug** with a linked Test issue,
+        not this template.
+
+        Native-field widgets at the bottom (Priority, Readiness) are
+        bridged to the issue's native fields by a workflow on creation.
+
+  - type: textarea
+    id: what-being-tested
+    attributes:
+      label: What's being tested
+      description: The component, behavior, regression, or boundary case this test covers.
+    validations:
+      required: true
+
+  - type: textarea
+    id: linked-issue
+    attributes:
+      label: Linked issue
+      description: |
+        The bug or feature this test addresses. Use full cross-repo form
+        (`vade-app/<repo>#N`) for cross-repo references; bare `#N` resolves
+        wrong.
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: |
+        Background, prior memos, related issues. Use hyphenated MEMO autolink
+        form and full cross-repo form for issue references.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: P0 (urgent) → P3 (low). Bridged to the native Priority field.
+      options:
+        - P2
+        - P0
+        - P1
+        - P3
+      default: 0
+    validations:
+      required: false
+
+  - type: dropdown
+    id: readiness
+    attributes:
+      label: Readiness
+      description: Pickup-readiness. Bridged to the native Readiness field.
+      options:
+        - Ready
+        - Needs design
+        - Needs research
+        - Needs breakdown
+    validations:
+      required: false

@@ -1,0 +1,119 @@
+name: Research
+description: Spike, investigation, deep-dive — produces findings, not merged code.
+title: "Research: <short description>"
+type: Research
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Research
+
+        Spikes, investigations, deep-dives that produce findings (memos,
+        foundation essays, operations docs, briefings, or scoped
+        code-spikes). The deliverable is **understanding made durable**,
+        not a feature ship.
+
+        Native-field widgets at the bottom are bridged to the issue's
+        native fields by a workflow on creation. The custom fields
+        `Research question` and `Output kind` are pinned to Research.
+
+  - type: textarea
+    id: research-question
+    attributes:
+      label: Research question
+      description: The specific question to investigate. One sentence; bridged to the native `Research question` field.
+    validations:
+      required: true
+
+  - type: textarea
+    id: approach
+    attributes:
+      label: Approach
+      description: How you plan to investigate. Sources to read, experiments to run, instances/agents to consult.
+    validations:
+      required: false
+
+  - type: textarea
+    id: expected-output
+    attributes:
+      label: Expected output
+      description: What artifact this will produce — memo, foundation essay, operations doc, briefing, or code-spike. Match the `Output kind` selection below.
+    validations:
+      required: false
+
+  - type: textarea
+    id: done-when
+    attributes:
+      label: Done when
+      description: Specific, falsifiable conditions for closing this issue. Research issues benefit from a clear close-when since they can drift.
+      placeholder: |
+        - [ ] <finding 1 reached>
+        - [ ] <artifact 1 published>
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: |
+        Background, prior memos, related issues. Use hyphenated MEMO autolink
+        form and full cross-repo form for issue references.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: P0 (urgent) → P3 (low). Bridged to the native Priority field.
+      options:
+        - P2
+        - P0
+        - P1
+        - P3
+      default: 0
+    validations:
+      required: false
+
+  - type: dropdown
+    id: readiness
+    attributes:
+      label: Readiness
+      description: Pickup-readiness. Bridged to the native Readiness field.
+      options:
+        - Ready
+        - Needs design
+        - Needs research
+        - Needs breakdown
+    validations:
+      required: false
+
+  - type: dropdown
+    id: effort
+    attributes:
+      label: Effort
+      description: Estimated effort. XS → XL. Bridged to the native Effort field.
+      options:
+        - M
+        - XS
+        - S
+        - L
+        - XL
+      default: 0
+    validations:
+      required: false
+
+  - type: dropdown
+    id: output-kind
+    attributes:
+      label: Output kind
+      description: Type of artifact this research will produce. Bridged to the native Output kind field.
+      options:
+        - memo
+        - foundation-essay
+        - operations-doc
+        - briefing
+        - code-spike
+    validations:
+      required: false

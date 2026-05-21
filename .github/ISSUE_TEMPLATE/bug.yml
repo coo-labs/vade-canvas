@@ -1,0 +1,76 @@
+name: Bug
+description: A defect — existing behavior diverges from intended.
+title: "Bug: <short description>"
+type: Bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Bug
+
+        Existing behavior diverges from what's intended. Use this template
+        for regressions, broken features, and unexpected outputs.
+
+        Native-field widgets at the bottom (Priority, Readiness) are
+        bridged to the issue's native fields by a workflow on creation.
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Steps to reproduce the bug. Be specific enough that someone else can hit the same state.
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-observed
+    attributes:
+      label: Expected vs observed
+      description: What you expected to happen, and what actually happened.
+      placeholder: |
+        **Expected:** ...
+
+        **Observed:** ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: |
+        Environment, recent changes, related issues. Use hyphenated MEMO
+        autolink form and full cross-repo form for issue references.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: P0 (urgent) → P3 (low). Bridged to the native Priority field.
+      options:
+        - P2
+        - P0
+        - P1
+        - P3
+      default: 0
+    validations:
+      required: false
+
+  - type: dropdown
+    id: readiness
+    attributes:
+      label: Readiness
+      description: Pickup-readiness. Bridged to the native Readiness field.
+      options:
+        - Ready
+        - Needs design
+        - Needs research
+        - Needs breakdown
+    validations:
+      required: false
