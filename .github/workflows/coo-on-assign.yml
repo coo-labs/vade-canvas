@@ -21,11 +21,16 @@ name: COO on issue assign
 # comment. Re-assignment (remove + add) is the explicit re-launch
 # primitive (e.g. after a session ended or got stuck).
 #
-# This workflow file is byte-identical across all 9 vade-app/* repos
-# the COO has scope on. When the prompt or URL form changes, sync the
-# update across all 9 in one PR pass (workflow-sync convention; mirrors
-# the issue-pr-hygiene.yml rollout pattern from
-# coo/briefings/014-issue-pr-hygiene-rollout.md).
+# This workflow file is byte-identical across all 10 vade-app/* repos
+# the COO has scope on. When the prompt, URL form, or COO_SCOPE_REPOS
+# list below changes, sync the update across all 10 in one PR pass
+# (workflow-sync convention; mirrors the issue-pr-hygiene.yml rollout
+# pattern from coo/briefings/014-issue-pr-hygiene-rollout.md).
+#
+# COO_SCOPE_REPOS maintenance: when a vade-app/* repo is created,
+# renamed, archived, or deleted, update the list in this workflow AND
+# sync to all 10 repos in scope. There is no runtime drift detection
+# yet — the list is the canonical declaration of scope.
 
 on:
   issues:
@@ -105,12 +110,15 @@ jobs:
             // newlines as %0A) for both prompt and repositories. No
             // `environment` param at MVP — Ven's last-used env is sticky.
             //
-            // Pre-select ALL nine vade-app/* repos the COO has scope on.
+            // Pre-select ALL ten vade-app/* repos the COO has scope on.
             // The boot pass (coo-bootstrap.sh, integrity-check, identity
             // layer reads) cross-references files across these repos; a
             // session attached to only the assigning repo fails boot.
             // The assigning repo goes first so it's the obvious primary
             // in the form's repo selector.
+            //
+            // When a vade-app/* repo is added/renamed/archived/deleted,
+            // update this list AND sync the change to all 10 repos.
             const COO_SCOPE_REPOS = [
               'vade-app/vade-coo-memory',
               'vade-app/vade-core',
@@ -120,7 +128,8 @@ jobs:
               'vade-app/skills',
               'vade-app/coo4one',
               'vade-app/vade-site',
-              'vade-app/coo-transcripts-analysis',
+              'vade-app/tjsonl',
+              'vade-app/vade-console',
             ];
             const repositories = [
               repoSlug,
