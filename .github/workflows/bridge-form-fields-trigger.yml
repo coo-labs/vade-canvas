@@ -27,12 +27,14 @@ on:
         type: boolean
         default: false
 
+permissions:
+  contents: read
+  issues: write
+
 jobs:
   bridge:
     uses: vade-app/vade-runtime/.github/workflows/bridge-form-fields-to-natives.yml@main
     with:
       issue-number: ${{ github.event.issue.number || inputs.issue_number }}
       repo-full-name: ${{ github.repository }}
-      dry-run: ${{ inputs.dry_run || false }}
-    secrets:
-      ISSUE_FIELDS_ADMIN_PAT: ${{ secrets.VADE_FIELDS_ADMIN_PAT }}
+    secrets: inherit
