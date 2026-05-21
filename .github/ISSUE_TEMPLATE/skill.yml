@@ -1,6 +1,6 @@
 name: Skill
 description: Skill lifecycle work (implement / review / revise / evaluate / idea).
-title: "Skill: <skill-name> — <phase>"
+title: "/<skill-name>: <short description>"
 type: Skill
 body:
   - type: markdown
