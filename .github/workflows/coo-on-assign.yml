@@ -82,9 +82,9 @@ jobs:
               `3a. readiness:ready-to-pick-up (or absent label on a well-scoped body): implement autonomously. Open a PR when the change is complete and the verification steps in the issue (or your judgement of equivalent steps) have run green. Auto-subscribe per the PR-watch discipline in CLAUDE.md. Stand by for review.`,
               `3b. readiness:needs-design / readiness:needs-research / readiness:needs-breakdown, or any clarification-shaped signal in the body: do preliminary reconnaissance, draft a plan, then post a brief comment on the issue (or open a discussion thread for larger scope) that names what you understood, what the design space is, which decisions Ven needs to make, and your recommendation. Stop after the brief — wait for Ven.`,
               `3c. needs:bdfl-approval: never merge autonomously. Always brief, never autonomous, regardless of the readiness label.`,
-              `4. End-of-session discipline applies — episodic Mem0 entry, session log in vade-agent-logs, /memo-sync if a memo was issued.`,
+              `4. When the task above is complete, stand by — do not proactively invoke /end-session or otherwise wrap. Async sessions stay idle until Ven re-engages or the idle-watchdog runs mechanical session-close. End-of-session is a Ven-trigger or watchdog-trigger in this context, NOT an agent-initiated one. Wrapping prematurely after a brief means the session is unavailable when Ven arrives to continue.`,
               ``,
-              `Ven is not currently at the keyboard. Don't expect interactive clarification mid-task; if you would have asked, brief instead.`,
+              `Ven is not currently at the keyboard at session start. Don't expect interactive clarification mid-task; if you would have asked, brief instead. But Ven may engage at any time — if a message arrives mid-session, switch to interactive mode and continue.`,
             ].join('\n');
 
             // --- Compose the pre-fill URL ---------------------------
