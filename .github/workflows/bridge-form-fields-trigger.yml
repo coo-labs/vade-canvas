@@ -35,4 +35,4 @@ jobs:
       repo-full-name: ${{ github.repository }}
       dry-run: ${{ inputs.dry_run || false }}
     secrets:
-      ISSUE_FIELDS_ADMIN_PAT: ${{ secrets.GITHUB_MCP_PAT }}
+      ISSUE_FIELDS_ADMIN_PAT: ${{ secrets.VADE_FIELDS_ADMIN_PAT }}
