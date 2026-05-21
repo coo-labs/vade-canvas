@@ -1,0 +1,59 @@
+name: Docs
+description: Documentation-only change.
+title: "Docs: <short description>"
+type: Docs
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Docs
+
+        Documentation-only changes — new operations docs, foundation
+        essays, retrospective entries, README updates, or memo paired
+        files. For code changes that include incidental doc updates use
+        the corresponding code type instead.
+
+        Only the Priority widget bridges to a native field; Docs are not
+        pinned to a Readiness field (they ship when written).
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What documentation needs writing / changing, and where it should live.
+    validations:
+      required: true
+
+  - type: textarea
+    id: source-of-truth
+    attributes:
+      label: Source-of-truth pointer
+      description: |
+        Is there an existing file this doc supersedes or paired with? If yes, name it.
+        For new memos / operations docs, list the memo IDs / paired artifacts.
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: |
+        Background, prior memos, related issues. Use hyphenated MEMO autolink
+        form and full cross-repo form for issue references.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: P0 (urgent) → P3 (low). Bridged to the native Priority field.
+      options:
+        - P2
+        - P0
+        - P1
+        - P3
+      default: 0
+    validations:
+      required: false

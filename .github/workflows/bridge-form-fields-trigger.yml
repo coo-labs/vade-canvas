@@ -1,0 +1,38 @@
+name: Bridge issue-form widgets to native fields (trigger)
+
+# Triggers the bridge reusable workflow at
+# vade-app/vade-runtime/.github/workflows/bridge-form-fields-to-natives.yml
+# whenever an issue is opened in this repository.
+#
+# This file is hand-mirrored across vade-coo-memory / vade-runtime /
+# vade-core / vade-agent-logs. Edit canonical in vade-coo-memory and
+# port to siblings (workflow-sync convention; see
+# coo/operations/issue-pr-hygiene.md).
+#
+# Bridge design + script source: vade-app/vade-runtime#TBD.
+# Stage 2 design: vade-app/vade-coo-memory#811.
+
+on:
+  issues:
+    types: [opened]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: Issue number to re-bridge.
+        required: true
+        type: number
+      dry_run:
+        description: Dry-run (print intended mutations without applying).
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  bridge:
+    uses: vade-app/vade-runtime/.github/workflows/bridge-form-fields-to-natives.yml@main
+    with:
+      issue-number: ${{ github.event.issue.number || inputs.issue_number }}
+      repo-full-name: ${{ github.repository }}
+      dry-run: ${{ inputs.dry_run || false }}
+    secrets:
+      ISSUE_FIELDS_ADMIN_PAT: ${{ secrets.GITHUB_MCP_PAT }}

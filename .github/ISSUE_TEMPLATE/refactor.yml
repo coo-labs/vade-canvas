@@ -1,0 +1,76 @@
+name: Refactor
+description: Internal restructuring without behavior change.
+title: "Refactor: <short description>"
+type: Refactor
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Refactor
+
+        Internal restructuring that does not change observable behavior.
+        Pure code/data re-arrangement. If behavior changes — even
+        slightly — use **Feature** or **Bug** instead.
+
+        Native-field widgets at the bottom (Priority, Effort) are
+        bridged to the issue's native fields by a workflow on creation.
+        Refactor is not pinned to Readiness (it's typically picked up
+        opportunistically).
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What's being restructured. Files, modules, packages, or conceptual layers.
+    validations:
+      required: true
+
+  - type: textarea
+    id: behavior-unchanged
+    attributes:
+      label: Behavior-unchanged check
+      description: |
+        How you'll verify external behavior didn't change. Existing tests
+        passing is usually sufficient; for boundary cases, name the
+        specific behaviors you've confirmed remain equivalent.
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: |
+        Background, prior memos, related issues. Use hyphenated MEMO autolink
+        form and full cross-repo form for issue references.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: P0 (urgent) → P3 (low). Bridged to the native Priority field.
+      options:
+        - P2
+        - P0
+        - P1
+        - P3
+      default: 0
+    validations:
+      required: false
+
+  - type: dropdown
+    id: effort
+    attributes:
+      label: Effort
+      description: Estimated effort. XS → XL. Bridged to the native Effort field.
+      options:
+        - M
+        - XS
+        - S
+        - L
+        - XL
+      default: 0
+    validations:
+      required: false

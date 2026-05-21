@@ -1,0 +1,109 @@
+name: Skill
+description: Skill lifecycle work (implement / review / revise / evaluate / idea).
+title: "Skill: <skill-name> — <phase>"
+type: Skill
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Skill
+
+        Skill lifecycle work — the new axis surfaced by issue fields.
+        Use this for any work on a `.claude/skills/<name>/` skill:
+        ideating, implementing, reviewing the SKILL.md, revising after
+        usage, or evaluating effectiveness.
+
+        Native-field widgets at the bottom are bridged to the issue's
+        native fields by a workflow on creation. The custom fields
+        `Skill kind` and `Skill name` are pinned to Skill.
+
+  - type: input
+    id: skill-name
+    attributes:
+      label: Skill name
+      description: Canonical skill name (e.g. `memo-search`, `debug-mode`, `peer-review`). Matches the directory name under `.claude/skills/`. Bridged to the native `Skill name` field.
+      placeholder: <skill-name>
+    validations:
+      required: true
+
+  - type: dropdown
+    id: skill-kind
+    attributes:
+      label: Skill kind
+      description: Lifecycle phase. Bridged to the native `Skill kind` field.
+      options:
+        - idea
+        - implement
+        - review
+        - revise
+        - evaluate
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope of this phase
+      description: What this specific lifecycle step accomplishes. For `idea`, sketch the trigger and shape. For `implement`, the deliverable file path. For `review`/`revise`, what's being evaluated against what.
+    validations:
+      required: true
+
+  - type: textarea
+    id: adoption-test
+    attributes:
+      label: Adoption test
+      description: How will we know this skill is actually used? Or for `idea`-phase, what signals would trigger its use?
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: |
+        Background, prior skill versions, related issues. Use hyphenated MEMO
+        autolink form and full cross-repo form for issue references.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: P0 (urgent) → P3 (low). Bridged to the native Priority field.
+      options:
+        - P2
+        - P0
+        - P1
+        - P3
+      default: 0
+    validations:
+      required: false
+
+  - type: dropdown
+    id: readiness
+    attributes:
+      label: Readiness
+      description: Pickup-readiness. Bridged to the native Readiness field.
+      options:
+        - Ready
+        - Needs design
+        - Needs research
+        - Needs breakdown
+    validations:
+      required: false
+
+  - type: dropdown
+    id: effort
+    attributes:
+      label: Effort
+      description: Estimated effort. XS → XL. Bridged to the native Effort field.
+      options:
+        - M
+        - XS
+        - S
+        - L
+        - XL
+      default: 0
+    validations:
+      required: false

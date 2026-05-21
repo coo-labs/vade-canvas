@@ -1,0 +1,74 @@
+name: Task
+description: Default kind of implementable work that doesn't fit another type.
+title: "Task: <short description>"
+type: Task
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Task
+
+        Use this template for default implementable work. For multi-step
+        parent issues use the **Epic** template instead. For defects use
+        **Bug**; for new user-facing capabilities use **Feature**.
+
+        Native-field widgets at the bottom (Priority, Readiness) are
+        bridged to the issue's native fields by a workflow on creation.
+        See [`coo/operations/issue-fields-and-types.md`](https://github.com/vade-app/vade-coo-memory/blob/main/coo/operations/issue-fields-and-types.md).
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: One-paragraph description of what this task is and what shipping looks like.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance criteria
+      description: Specific, falsifiable conditions for completion.
+      placeholder: |
+        - [ ] <condition 1>
+        - [ ] <condition 2>
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: |
+        Background, prior memos, related issues. Use hyphenated MEMO autolink
+        form (`MEMO-YYYY-MM-DD-<suffix>`) and full cross-repo form
+        (`vade-app/<repo>#N`) for issue references.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: P0 (urgent) → P3 (low). Bridged to the native Priority field.
+      options:
+        - P2
+        - P0
+        - P1
+        - P3
+      default: 0
+    validations:
+      required: false
+
+  - type: dropdown
+    id: readiness
+    attributes:
+      label: Readiness
+      description: Pickup-readiness. Bridged to the native Readiness field.
+      options:
+        - Ready
+        - Needs design
+        - Needs research
+        - Needs breakdown
+    validations:
+      required: false
