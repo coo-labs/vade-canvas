@@ -1,0 +1,90 @@
+name: Auto-add new PRs to the VADE project
+
+# When a PR is opened or reopened on this repo, add it to the VADE
+# org project board with Status=In Progress. Pairs with
+# `auto-tag-issues.yml`'s project-add step (which only handles
+# issues, not PRs). See:
+#   - https://github.com/vade-app/vade-coo-memory/blob/main/coo/operations/project-board.md
+#   - MEMO-2026-05-20-pbrd — Status canonical; In Progress is the
+#     opened-PR-by-definition state.
+#   - MEMO-2026-05-21-qg65 — milestones uniform across active repos.
+#
+# When the VADE project is rebuilt or its fields change, batch-update
+# all 4 repos' workflows together.
+#
+# Prerequisites:
+#   - secrets.VADE_PROJECT_PAT — PAT with `project` scope for the
+#     vade-app org. If unset, the workflow logs a warning and skips
+#     (graceful no-op, mirrors the auto-tag-issues.yml pattern).
+
+on:
+  pull_request:
+    types: [opened, reopened]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-project-add-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  add:
+    # Skip dependabot + GitHub Actions auto-PRs; include vade-coo,
+    # claude[bot], and human authors.
+    if: |
+      github.event.pull_request.user.login != 'dependabot[bot]' &&
+      github.event.pull_request.user.login != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add PR to VADE project, set Status=In Progress
+        env:
+          VADE_PROJECT_PAT: ${{ secrets.VADE_PROJECT_PAT }}
+          PR_NODE_ID: ${{ github.event.pull_request.node_id }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          # Auto-add is opportunistic — graceful skip on any failure mode
+          # (missing secret, PAT scope insufficient for this repo, project
+          # field write denied). The CI run does NOT fail; the PR proceeds.
+          set -uo pipefail
+
+          if [ -z "${VADE_PROJECT_PAT:-}" ]; then
+            echo "VADE_PROJECT_PAT not set — skipping project assignment for PR #$PR_NUMBER"
+            exit 0
+          fi
+
+          # Canonical IDs from coo/operations/project-board.md:
+          PROJECT_ID="PVT_kwDOEGdN_84BUV2r"
+          STATUS_FIELD_ID="PVTSSF_lADOEGdN_84BUV2rzhBesAw"
+          STATUS_IN_PROGRESS_OPT="47fc9ee4"
+
+          export GH_TOKEN="$VADE_PROJECT_PAT"
+
+          # addProjectV2ItemById is idempotent: returns the existing
+          # edge if the item is already on the project.
+          add_out=$(gh api graphql \
+            -f query='mutation($p:ID!,$c:ID!){addProjectV2ItemById(input:{projectId:$p,contentId:$c}){item{id}}}' \
+            -F p="$PROJECT_ID" \
+            -F c="$PR_NODE_ID" 2>&1)
+          add_rc=$?
+          ITEM_ID=$(printf '%s' "$add_out" | jq -r '.data.addProjectV2ItemById.item.id // empty' 2>/dev/null || true)
+
+          if [ "$add_rc" -ne 0 ] || [ -z "$ITEM_ID" ]; then
+            echo "auto-add: PR #$PR_NUMBER could not be added to VADE project (likely VADE_PROJECT_PAT lacks Pull Requests: Read on this repo). Continuing — this is non-blocking." >&2
+            echo "auto-add: gh output was: $add_out" >&2
+            exit 0
+          fi
+          echo "Added PR #$PR_NUMBER to VADE as item $ITEM_ID"
+
+          # Set Status=In Progress. Best-effort — log and continue on failure.
+          if ! gh api graphql \
+            -f query='mutation($p:ID!,$i:ID!,$f:ID!,$o:String!){updateProjectV2ItemFieldValue(input:{projectId:$p,itemId:$i,fieldId:$f,value:{singleSelectOptionId:$o}}){projectV2Item{id}}}' \
+            -F p="$PROJECT_ID" \
+            -F i="$ITEM_ID" \
+            -F f="$STATUS_FIELD_ID" \
+            -F o="$STATUS_IN_PROGRESS_OPT" >/dev/null 2>&1; then
+            echo "auto-add: Status field write failed on item $ITEM_ID — continuing" >&2
+            exit 0
+          fi
+
+          echo "Set Status=In Progress on item $ITEM_ID"

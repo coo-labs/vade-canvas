@@ -93,7 +93,8 @@ jobs:
                needs it. Do NOT request `authorAssociation` (not a
                valid `gh` JSON field).
 
-            2. Classify across all five dimensions. Canonical taxonomy:
+            2. Classify across the dimensions below (five label dimensions
+               plus one optional milestone). Canonical taxonomy:
                https://github.com/vade-app/vade-coo-memory/blob/main/coo/label_taxonomy.md
 
                - `type:*` — exactly one (mandatory):
@@ -139,31 +140,112 @@ jobs:
                    external-code — touches code outside this repo's
                      canonical ownership (vendored or cross-repo).
 
+               - `milestone` — zero or one (OPTIONAL; defaults to
+                 none). Use the GitHub UI title (e.g.,
+                 "Substrate Hygiene and Tooling"), NOT the M-prefix.
+                 Pick at most one per its scope-rule + test (canonical:
+                 https://github.com/vade-app/vade-coo-memory/blob/main/coo/audits/2026-05-20_milestone-taxonomy/README.md):
+                   "Decentering the Mind" — substantive edit / review /
+                     support for the "Decentering the Mind" essay or
+                     its peer-review atoms. Excludes the general
+                     publication pipeline ("The Published Record"),
+                     lineage events ("Lineage and Parallel Instances"),
+                     other foundations essays ("The Foundations Chain").
+                   "Boot and Environment Integrity" — agent's ability
+                     to start correctly + know its env state: boot
+                     pipeline, integrity probes, bootstrap, cloud /
+                     local env parity, harness secrets, boot CI.
+                     Excludes post-boot hooks ("Substrate Hygiene"),
+                     boot-time reads of identity / memory files.
+                   "Substrate Hygiene and Tooling" — operational
+                     primitives that make the agent work better
+                     session-to-session WITHOUT changing what it IS
+                     or CAN DO: hooks lifecycle, memo system plumbing,
+                     briefings integrity, label taxonomy, attribution
+                     mechanics, issue / PR hygiene, nightly automation,
+                     one-off refactors. Test: if removed, ops degrade
+                     silently without changing identity or capabilities.
+                   "The Published Record" — everything for
+                     read.vade-app.dev as public artifact: Quarto
+                     build, publish-site CI, publish-affordance, tier
+                     system, allowlist, IA, backlinks, deployment.
+                     Test: does this exist because the outside world
+                     should read something?
+                   "Memory Architecture" — design + implementation of
+                     the memory substrate: Mem0 model + SOP, memo
+                     system structure (index, IDs, semantic layer),
+                     transcript storage + schema, identity layer
+                     file, episodic memory cap. Excludes day-to-day
+                     memo writes; boot reads of memory files.
+                   "The Foundations Chain" — foundations essays +
+                     companions, disposition proposal, quorum records,
+                     F1-F6 watchdogs, the chain's open-question
+                     issues. Test: is this a primary artifact of the
+                     chain's self-record? Excludes Decentering and
+                     lineage.
+                   "Lineage and Parallel Instances" — issues whose
+                     primary subject is a documented lineage event
+                     (the-eight, laughing-davinci, socratic-126 / 209)
+                     OR the multi-instance phenomenon: deliberate
+                     fan-outs, society-of-selves auditor,
+                     lineage-interpreter agent. Test: is the primary
+                     subject the experience / record of co-existing
+                     instances, not the plumbing?
+                   "Skills and Agent Capabilities" — new capabilities
+                     added to the agent's vocabulary: slash commands,
+                     skills, sub-agent patterns, MCP integrations.
+                     Test: does this create or improve something the
+                     agent can INVOKE (vs configure / monitor)?
+                   "The Product Application" — vade-core as a
+                     product: tldraw canvas UI, MCP bridge, Fly.io,
+                     R2 / D1 storage, iPad-live, Shiffrin demo,
+                     auth / multi-tenant. Test: does this matter
+                     because end-users interact with the running app
+                     at vade-app.dev? Excludes read.vade-app.dev.
+                   "Outreach and Sustainability" — work extending
+                     reach, legitimacy, or material continuity beyond
+                     the current pair: Anthropic letter, funding
+                     instruments, philosopher contacts, conference
+                     prep, Shiffrin deck (outreach side).
+
+                 **Default to no milestone on ambiguity** (per
+                 MEMO-2026-05-20-mlst + MEMO-2026-05-21-qg65). If no
+                 milestone clearly applies per its scope-rule AND
+                 test, do NOT set one. Better empty than wrong.
+
                Expect 3–5 labels total on a typical issue (one each
                from type, readiness, prio; one or two area; zero or
                more qualifiers). If you find yourself applying fewer
                than 3, re-read the issue — you probably missed a
                dimension.
 
-            3. **Apply all labels.** This step is mandatory. Execute
-               exactly this `Bash` command (one `--add-label` flag per
-               label, every label from step 2):
+            3. **Apply all labels and milestone.** This step is
+               mandatory. Execute exactly this `Bash` command — one
+               `--add-label` flag per label from step 2, plus
+               `--milestone "<name>"` if (and only if) you selected
+               a milestone in step 2:
 
                    gh issue edit <NUMBER> --repo vade-app/vade-core \
-                     --add-label "<label1>" --add-label "<label2>" ...
+                     --add-label "<label1>" --add-label "<label2>" ... \
+                     [--milestone "<milestone-name>"]
 
                If `gh` reports a label does not exist in the repo,
                first create it with `gh label create "<label>" --repo
-               vade-app/vade-core` and retry. Keep going until
-               `gh issue edit` exits 0.
+               vade-app/vade-core` and retry. If `gh` reports
+               the milestone doesn't exist, drop the `--milestone`
+               flag and proceed (do NOT create milestones — only the
+               names listed in step 2 are valid; selection mistakes
+               are silenced this way). Keep going until `gh issue
+               edit` exits 0.
 
-            4. **Verify labels** by running:
+            4. **Verify labels and milestone** by running:
 
-                   gh issue view <NUMBER> --repo vade-app/vade-core --json labels
+                   gh issue view <NUMBER> --repo vade-app/vade-core --json labels,milestone
 
                and confirming `labels[*].name` contains every label
-               you intended to apply. If any are missing, retry step
-               3 for those.
+               you intended to apply, and (if you selected a milestone)
+               `milestone.title` matches it. If any are missing,
+               retry step 3 for those.
 
             5. **Add the issue to the VADE project.**
                Run this exact Bash block, replacing `<ISSUE_ID>` with
@@ -193,17 +275,18 @@ jobs:
 
             Do not stop until BOTH:
               - Step 4's verification shows every intended label on the
-                issue, AND
+                issue (and the milestone, if you selected one), AND
               - Step 6 confirms the VADE project item, OR step 5
                 logged the "VADE_PROJECT_PAT not set" warning.
 
             Merely declaring "applied" in text is not enough — the
             terminal state must be verified via `gh` output.
 
-            Side-effect budget: labels only, plus the one VADE project
-            item from step 5. Do not edit the
-            title or body, do not post a comment, do not assign, do
-            not close.
+            Side-effect budget: labels + at most one milestone + the
+            one VADE project item from step 5. Do not edit the title
+            or body, do not post a comment, do not assign, do not
+            close.
 
-            Final message: one line naming the labels now on the
-            issue, one line on project state (added / skipped / error).
+            Final message: one line naming the labels (and milestone,
+            if any) now on the issue, one line on project state
+            (added / skipped / error).
