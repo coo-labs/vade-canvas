@@ -91,9 +91,32 @@ jobs:
             // URLSearchParams handles percent-encoding (incl. multi-line
             // newlines as %0A) for both prompt and repositories. No
             // `environment` param at MVP — Ven's last-used env is sticky.
+            //
+            // Pre-select ALL nine vade-app/* repos the COO has scope on.
+            // The boot pass (coo-bootstrap.sh, integrity-check, identity
+            // layer reads) cross-references files across these repos; a
+            // session attached to only the assigning repo fails boot.
+            // The assigning repo goes first so it's the obvious primary
+            // in the form's repo selector.
+            const COO_SCOPE_REPOS = [
+              'vade-app/vade-coo-memory',
+              'vade-app/vade-core',
+              'vade-app/vade-runtime',
+              'vade-app/vade-agent-logs',
+              'vade-app/vade-governance',
+              'vade-app/skills',
+              'vade-app/coo4one',
+              'vade-app/vade-site',
+              'vade-app/coo-transcripts-analysis',
+            ];
+            const repositories = [
+              repoSlug,
+              ...COO_SCOPE_REPOS.filter(r => r !== repoSlug),
+            ].join(',');
+
             const params = new URLSearchParams({
               prompt,
-              repositories: repoSlug,
+              repositories,
             });
             const launchUrl = `https://claude.ai/code?${params.toString()}`;
 
