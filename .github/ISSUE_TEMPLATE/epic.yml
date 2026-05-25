@@ -13,8 +13,7 @@ body:
         each child issue (or use the GraphQL `addSubIssue` mutation).
 
         Native sub-issue linkage is **required** for Epic-type issues per
-        [`coo/operations/issue-pr-hygiene.md`](https://github.com/coo-labs/coo-memory/blob/main/coo/operations/issue-pr-hygiene.md)
-        + [`coo/label_taxonomy.md`](https://github.com/coo-labs/coo-memory/blob/main/coo/label_taxonomy.md) §6 —
+        [`coo/operations/issue-pr-hygiene.md`](https://github.com/coo-labs/coo-memory/blob/main/coo/operations/issue-pr-hygiene.md) —
         markdown checklists of `#N` references in the epic body are insufficient
         because they're invisible to GraphQL queries and the project board's
         tracker UI.
@@ -33,8 +32,8 @@ body:
       label: Summary
       description: One-paragraph description of what this epic is about and what shipping it looks like.
       placeholder: |
-        e.g., "Migrate the five repos from `proj:*` labels to GitHub native
-        sub-issues so the project board's tracker UI reflects real progress."
+        e.g., "Migrate the four primary repos from markdown-checklist sub-issue tracking
+        to GitHub's native sub-issue API so the project board's tracker UI reflects real progress."
     validations:
       required: true
 
