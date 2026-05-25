@@ -1,7 +1,7 @@
 name: Auto-add new PRs to the VADE project
 
 # Thin trigger: fires on PR open/reopen and delegates to the canonical
-# reusable workflow at vade-app/vade-runtime/.github/workflows/auto-add-prs-to-project-reusable.yml.
+# reusable workflow at coo-labs/vade-runtime/.github/workflows/auto-add-prs-to-project-reusable.yml.
 #
 # Centralization: vade-coo-memory#939 (F7). Logic + project IDs live in
 # the reusable; this file only carries the event trigger and the
@@ -16,5 +16,5 @@ permissions:
 
 jobs:
   add:
-    uses: vade-app/vade-runtime/.github/workflows/auto-add-prs-to-project-reusable.yml@main
+    uses: coo-labs/vade-runtime/.github/workflows/auto-add-prs-to-project-reusable.yml@main
     secrets: inherit
