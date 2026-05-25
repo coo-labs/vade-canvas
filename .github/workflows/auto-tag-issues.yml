@@ -2,7 +2,7 @@ name: Auto-tag new issues
 
 # Thin trigger: fires on issue open (gapfill mode) or workflow_dispatch
 # (full re-classify) and delegates to the canonical reusable workflow
-# at vade-app/vade-runtime/.github/workflows/auto-tag-issues-reusable.yml.
+# at coo-labs/vade-runtime/.github/workflows/auto-tag-issues-reusable.yml.
 #
 # Centralization: vade-coo-memory#939 (F7). Classification logic +
 # canonical taxonomy refs live in the reusable; this file only carries
@@ -25,7 +25,7 @@ permissions:
 
 jobs:
   tag:
-    uses: vade-app/vade-runtime/.github/workflows/auto-tag-issues-reusable.yml@main
+    uses: coo-labs/vade-runtime/.github/workflows/auto-tag-issues-reusable.yml@main
     with:
       issue-number: ${{ github.event.issue.number || inputs.issue_number }}
       mode: ${{ github.event_name == 'workflow_dispatch' && 'full' || 'gapfill' }}
