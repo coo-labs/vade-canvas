@@ -3,10 +3,10 @@ name: Issue / PR hygiene
 # Thin trigger: fires on PR/issue events and delegates to the canonical
 # reusable workflow at coo-labs/vade-runtime/.github/workflows/issue-pr-hygiene-reusable.yml.
 #
-# Centralization: vade-coo-memory#939 (F7), absorbs vade-coo-memory#767.
+# Centralization: coo-labs/vade-coo-memory#939 (F7), absorbs coo-labs/vade-coo-memory#767.
 # Per-repo behavior is one input: `pattern-b-mode`.
 #
-# vade-core starts on `advisory`. Promotion to `blocking` is governed by
+# vade-canvas starts on `advisory`. Promotion to `blocking` is governed by
 # the coo/adoption_tracker.md betterment cadence (≥14 days clean) in vcm —
 # change the `pattern-b-mode` value below when ready.
 

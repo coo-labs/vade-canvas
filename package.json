@@ -1,8 +1,16 @@
 {
-  "name": "vade-core",
+  "name": "vade-canvas",
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coo-labs/vade-canvas.git"
+  },
+  "bugs": {
+    "url": "https://github.com/coo-labs/vade-canvas/issues"
+  },
+  "homepage": "https://github.com/coo-labs/vade-canvas#readme",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

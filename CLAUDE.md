@@ -1,4 +1,4 @@
-# vade-core — Repo Instructions for Claude Code
+# vade-canvas — Repo Instructions for Claude Code
 
 This is the **VADE kernel and canvas IDE**. These instructions
 apply to any Claude Code session working in this repository.
@@ -8,7 +8,7 @@ apply to any Claude Code session working in this repository.
 1. This file (`CLAUDE.md`) — repo scope and conventions.
 2. `README.md` — current state and goals.
 3. The public authority and decision-rights document at
-   [vade-governance/authority.md](https://github.com/vade-app/vade-governance/blob/main/authority.md)
+   [coo-memory/identity/public-authority.md](https://github.com/coo-labs/coo-memory/blob/main/identity/public-authority.md)
    — for what may and may not be done autonomously.
 4. Any `.claude/` contents (repo-local agents, skills, settings).
 
@@ -17,7 +17,7 @@ apply to any Claude Code session working in this repository.
 Work in this repository is scoped to the VADE kernel and canvas
 IDE: the runtime, rendering, orchestration layer, plugin system,
 and reference artifacts. Do not modify governance documents or
-other `vade-app` repositories from sessions started here.
+other `coo-labs/*` repositories from sessions started here.
 
 ## Architecture (target)
 
@@ -86,12 +86,12 @@ other `vade-app` repositories from sessions started here.
 - Changing the tech stack or introducing a framework not listed
   above.
 - Changing the MVP scope.
-- Touching any other `vade-app` repository.
+- Touching any other `coo-labs/*` repository.
 - Spending money or signing up for paid services.
 - Any irreversible action (force push, history rewrite, file
   deletion outside scratch paths).
 
-See [vade-governance/authority.md](https://github.com/vade-app/vade-governance/blob/main/authority.md)
+See [coo-memory/identity/public-authority.md](https://github.com/coo-labs/coo-memory/blob/main/identity/public-authority.md)
 for the authoritative list.
 
 ## Hitting an OAuth/scope wall on `git push` from a remote session
@@ -103,7 +103,7 @@ proxy. Two failure shapes recur:
   session). `vade-runtime/scripts/git-shim.sh` +
   `git-push-with-fallback.sh` handle this automatically — they
   retry once via the direct github.com URL with the PAT selected
-  by remote owner (`GITHUB_MCP_PAT` for `vade-app/*`,
+  by remote owner (`GITHUB_MCP_PAT` for `coo-labs/*`,
   `GITHUB_PUBLIC_PAT` for everything else; MEMO-2026-05-12-22m9).
   No manual intervention required; check the next try.
 
@@ -177,7 +177,7 @@ GitHub Actions CI/CD pipeline is tracked under issue #10.
 Single-operator bearer-token model. **Two distinct secret values**
 across **four slots**, plus one feature flag:
 
-| Value | Fly (`vade-mcp`) | Worker (`vade-core`) |
+| Value | Fly (`vade-mcp`) | Worker (`vade-core`, name unchanged) |
 |---|---|---|
 | Operator token (typed into clients) | `VADE_AUTH_TOKENS` (JSON `{"operator":[…],"agents":[]}`) | `OPERATOR_TOKENS` (same JSON) |
 | Library service token (never typed) | `VADE_LIBRARY_BEARER` (hex string) | `LIBRARY_BEARER` (hex string) |

@@ -5,12 +5,12 @@ name: Bridge issue-form widgets to native fields (trigger)
 # whenever an issue is opened in this repository.
 #
 # This file is hand-mirrored across vade-coo-memory / vade-runtime /
-# vade-core / vade-agent-logs. Edit canonical in vade-coo-memory and
+# vade-canvas / vade-agent-logs. Edit canonical in vade-coo-memory and
 # port to siblings (workflow-sync convention; see
 # coo/operations/issue-pr-hygiene.md).
 #
-# Bridge design + script source: vade-app/vade-runtime#TBD.
-# Stage 2 design: vade-app/vade-coo-memory#811.
+# Bridge design + script source: coo-labs/vade-runtime#TBD.
+# Stage 2 design: coo-labs/vade-coo-memory#811.
 
 on:
   issues:
