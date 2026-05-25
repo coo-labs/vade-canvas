@@ -14,7 +14,7 @@ body:
 
         Native-field widgets at the bottom (Priority, Readiness) are
         bridged to the issue's native fields by a workflow on creation.
-        See [`coo/operations/issue-fields-and-types.md`](https://github.com/vade-app/vade-coo-memory/blob/main/coo/operations/issue-fields-and-types.md).
+        See [`coo/operations/issue-fields-and-types.md`](https://github.com/coo-labs/vade-coo-memory/blob/main/coo/operations/issue-fields-and-types.md).
 
   - type: textarea
     id: summary
@@ -42,7 +42,7 @@ body:
       description: |
         Background, prior memos, related issues. Use hyphenated MEMO autolink
         form (`MEMO-YYYY-MM-DD-<suffix>`) and full cross-repo form
-        (`vade-app/<repo>#N`) for issue references.
+        (`coo-labs/<repo>#N`) for issue references.
     validations:
       required: false
 

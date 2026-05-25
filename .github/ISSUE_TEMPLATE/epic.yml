@@ -13,8 +13,8 @@ body:
         each child issue (or use the GraphQL `addSubIssue` mutation).
 
         Native sub-issue linkage is **required** for Epic-type issues per
-        [`coo/operations/issue-pr-hygiene.md`](https://github.com/vade-app/vade-coo-memory/blob/main/coo/operations/issue-pr-hygiene.md)
-        + [`coo/label_taxonomy.md`](https://github.com/vade-app/vade-coo-memory/blob/main/coo/label_taxonomy.md) §6 —
+        [`coo/operations/issue-pr-hygiene.md`](https://github.com/coo-labs/vade-coo-memory/blob/main/coo/operations/issue-pr-hygiene.md)
+        + [`coo/label_taxonomy.md`](https://github.com/coo-labs/vade-coo-memory/blob/main/coo/label_taxonomy.md) §6 —
         markdown checklists of `#N` references in the epic body are insufficient
         because they're invisible to GraphQL queries and the project board's
         tracker UI.
@@ -72,12 +72,12 @@ body:
     attributes:
       label: Cross-repo dependencies
       description: |
-        Any issues / PRs in other vade-app repos this epic depends on. Use full
-        form `vade-app/<repo>#N` for cross-repo references (NEVER bare `#N` —
+        Any issues / PRs in other coo-labs repos this epic depends on. Use full
+        form `coo-labs/<repo>#N` for cross-repo references (NEVER bare `#N` —
         that autolinks to the wrong issue).
       placeholder: |
-        - vade-app/vade-runtime#NNN — describe dependency
-        - vade-app/vade-core#NNN — describe dependency
+        - coo-labs/vade-runtime#NNN — describe dependency
+        - coo-labs/vade-core#NNN — describe dependency
     validations:
       required: false
 

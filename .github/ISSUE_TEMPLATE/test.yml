@@ -29,7 +29,7 @@ body:
       label: Linked issue
       description: |
         The bug or feature this test addresses. Use full cross-repo form
-        (`vade-app/<repo>#N`) for cross-repo references; bare `#N` resolves
+        (`coo-labs/<repo>#N`) for cross-repo references; bare `#N` resolves
         wrong.
     validations:
       required: false
