@@ -14,7 +14,7 @@ body:
 
         Native-field widgets at the bottom (Priority, Readiness) are
         bridged to the issue's native fields by a workflow on creation.
-        See [`coo/operations/issue-fields-and-types.md`](https://github.com/coo-labs/vade-coo-memory/blob/main/coo/operations/issue-fields-and-types.md).
+        See [`coo/operations/issue-fields-and-types.md`](https://github.com/coo-labs/coo-memory/blob/main/coo/operations/issue-fields-and-types.md).
 
   - type: textarea
     id: summary
