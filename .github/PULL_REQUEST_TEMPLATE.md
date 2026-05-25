@@ -1,7 +1,7 @@
 <!--
   Issue / PR hygiene checklist (Patterns A–D from coo/operations/issue-pr-hygiene.md).
   The hygiene workflow validates this body on PR open/sync. Pattern B (closing
-  keywords) is advisory in this repo (BLOCKING in vade-coo-memory only,
+  keywords) is advisory in this repo (BLOCKING in coo-labs/coo-memory only,
   pending betterment-cadence promotion per briefing-014); A/C/D are advisory.
 
   Delete this comment block before submitting if you'd like cleaner UX.
@@ -15,18 +15,18 @@
 
 <!-- One of:
        Closes #N                           (same-repo issue)
-       Closes vade-app/<repo>#N            (cross-repo issue)
+       Closes coo-labs/<repo>#N            (cross-repo issue)
        Closes: n/a                         (no issue resolved)
 
-     NEVER use `Closes vade-coo-memory#N` (no `vade-app/` prefix) — it
+     NEVER use `Closes coo-memory#N` (no `coo-labs/` prefix) — it
      autolinks but does NOT auto-close. See coo/operations/issue-pr-hygiene.md.
 
      For multiple issues, ONE `Closes` LINE PER ISSUE — comma-lists
      silently fail (only the first ref auto-closes):
 
-       Closes vade-app/vade-coo-memory#393   ← all three auto-close
-       Closes vade-app/vade-coo-memory#394
-       Closes vade-app/vade-coo-memory#395
+       Closes coo-labs/coo-memory#393   ← all three auto-close
+       Closes coo-labs/coo-memory#394
+       Closes coo-labs/coo-memory#395
 
        Closes #393, #394, #395               ← only #393 closes;
                                                #394 + #395 stay open.
@@ -36,14 +36,14 @@ Closes:
 
 ## Cross-repo references
 
-<!-- Use full form `vade-app/<repo>#N` for any reference outside this repo.
+<!-- Use full form `coo-labs/<repo>#N` for any reference outside this repo.
      For lists, repeat the prefix per item:
 
-       vade-app/vade-runtime#29, vade-app/vade-runtime#64
+       coo-labs/coo-harness#29, coo-labs/coo-harness#64
 
      NOT:
 
-       vade-app/vade-runtime#29, #64       (← #64 autolinks to coo-memory#64)
+       coo-labs/coo-harness#29, #64       (← #64 autolinks to vade-canvas#64)
 -->
 
 ## Notation reminder

@@ -3,10 +3,10 @@ name: Auto-merge sync PR
 # Thin trigger: on sync:* labeled PR, call vrt's reusable to enable
 # squash auto-merge. Implements the F8 acceptance row "Configure
 # auto-merge for sync-action PRs in consumer repos"
-# (vade-coo-memory#938) via the F7 centralization pattern
-# (vade-coo-memory#939).
+# (coo-memory#938) via the F7 centralization pattern
+# (coo-memory#939).
 #
-# Canonical reusable: coo-labs/vade-runtime/.github/workflows/auto-merge-sync-pr-reusable.yml
+# Canonical reusable: coo-labs/coo-harness/.github/workflows/auto-merge-sync-pr-reusable.yml
 # Ops doc row: vade-coo-memory/coo/operations/workflow-centralization.md.
 
 on:
@@ -20,4 +20,4 @@ permissions:
 jobs:
   auto-merge:
     if: startsWith(github.event.label.name, 'sync:')
-    uses: coo-labs/vade-runtime/.github/workflows/auto-merge-sync-pr-reusable.yml@main
+    uses: coo-labs/coo-harness/.github/workflows/auto-merge-sync-pr-reusable.yml@main

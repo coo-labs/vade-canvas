@@ -1,10 +1,10 @@
-# vade-core
+# vade-canvas
 
-[![mcp-deploy](https://github.com/vade-app/vade-core/actions/workflows/mcp-deploy.yml/badge.svg)](https://github.com/vade-app/vade-core/actions/workflows/mcp-deploy.yml)
-[![pr-checks](https://github.com/vade-app/vade-core/actions/workflows/pr-checks.yml/badge.svg)](https://github.com/vade-app/vade-core/actions/workflows/pr-checks.yml)
+[![mcp-deploy](https://github.com/coo-labs/vade-canvas/actions/workflows/mcp-deploy.yml/badge.svg)](https://github.com/coo-labs/vade-canvas/actions/workflows/mcp-deploy.yml)
+[![pr-checks](https://github.com/coo-labs/vade-canvas/actions/workflows/pr-checks.yml/badge.svg)](https://github.com/coo-labs/vade-canvas/actions/workflows/pr-checks.yml)
 
 **VADE kernel and canvas IDE.** The primary application repo for
-[VADE](https://github.com/vade-app) — a Visual Agent-based
+[VADE](https://github.com/coo-labs) — a Visual Agent-based
 Development Environment. Canvas-based IDE/OS hybrid where AI agents
 build interactive tools on an infinite canvas.
 
@@ -73,6 +73,12 @@ previewable at a time). Library bindings are deliberately omitted
 from the preview env, so `/library/*` fails loudly there until a
 follow-up provisions a separate `vade-library-preview` bucket / D1.
 
+> **Note:** The Cloudflare Worker name itself is intentionally left
+> as `vade-core` / `vade-core-preview` — the Worker name is a
+> Cloudflare-side immutable binding, independent of the GitHub repo
+> name. The Git-integration source-repo binding relies on GitHub's
+> permanent redirect from `vade-app/vade-core` → `coo-labs/vade-canvas`.
+
 The `deploy:preview` script invokes `wrangler deploy --config
 wrangler.jsonc --env preview --assets ./dist/client` rather than the
 plain `wrangler deploy` used for production. The `--config` /
@@ -94,7 +100,7 @@ Worker's library routes instead of a local filesystem. Redeploy with
 `flyctl deploy --app vade-mcp`.
 
 CI/CD is wired via GitHub Actions (see
-[issue #10](https://github.com/vade-app/vade-core/issues/10)):
+[issue #10](https://github.com/coo-labs/vade-canvas/issues/10)):
 
 - `pr-checks.yml` typechecks the canvas, Worker, and MCP server on
   every pull request.
@@ -111,7 +117,7 @@ CI/CD is wired via GitHub Actions (see
 Single-operator bearer model. **Two distinct secret values** across
 **four secret slots**:
 
-| Value | Fly (`vade-mcp`) | Worker (`vade-core`) |
+| Value | Fly (`vade-mcp`) | Worker (`vade-core`, name unchanged) |
 |---|---|---|
 | Operator token (typed into clients) | `VADE_AUTH_TOKENS` | `OPERATOR_TOKENS` |
 | Library service token (never typed)  | `VADE_LIBRARY_BEARER` | `LIBRARY_BEARER` |
@@ -127,7 +133,7 @@ endpoint (`https://mcp.vade-app.dev/sse`), see
 
 ## Governance
 
-See [vade-governance](https://github.com/vade-app/vade-governance)
+See [coo-memory/identity/public-authority.md](https://github.com/coo-labs/coo-memory/blob/main/identity/public-authority.md)
 for the project's authority structure, decision rights, and
 contribution rules. BDFL: Ven Popov.
 
@@ -138,4 +144,5 @@ TBD — will be set before the first external contribution window.
 ## Contributing
 
 Not open for external contribution during bootstrap. See
-`vade-governance` for when and how external contribution opens.
+[coo-memory/identity/public-authority.md](https://github.com/coo-labs/coo-memory/blob/main/identity/public-authority.md)
+for when and how external contribution opens.

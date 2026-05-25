@@ -1,9 +1,9 @@
 name: COO on issue assign
 
 # Thin trigger: fires on `issues.assigned` and delegates to the canonical
-# reusable workflow at coo-labs/vade-runtime/.github/workflows/coo-on-assign-reusable.yml.
+# reusable workflow at coo-labs/coo-harness/.github/workflows/coo-on-assign-reusable.yml.
 #
-# Centralization: vade-coo-memory#939 (F7). Logic + COO_SCOPE_REPOS list
+# Centralization: coo-memory#939 (F7). Logic + COO_SCOPE_REPOS list
 # lives in the reusable; this file only carries the event trigger and
 # the per-repo opt-in. To opt OUT, delete this file.
 #
@@ -20,5 +20,5 @@ permissions:
 
 jobs:
   post-launch-link:
-    uses: coo-labs/vade-runtime/.github/workflows/coo-on-assign-reusable.yml@main
+    uses: coo-labs/coo-harness/.github/workflows/coo-on-assign-reusable.yml@main
     secrets: inherit

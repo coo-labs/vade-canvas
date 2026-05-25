@@ -77,7 +77,7 @@ body:
         that autolinks to the wrong issue).
       placeholder: |
         - coo-labs/vade-runtime#NNN — describe dependency
-        - coo-labs/vade-core#NNN — describe dependency
+        - coo-labs/vade-canvas#NNN — describe dependency
     validations:
       required: false
 
