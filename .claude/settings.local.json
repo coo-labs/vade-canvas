@@ -1,8 +1,6 @@
 {
   "permissions": {
     "allow": [
-      "Read(//Users/venpopov/.claude/**)",
-      "Bash(python3 -c \"import json; d=json.load\\(open\\('/Users/venpopov/.claude.json'\\)\\); print\\(d['projects']['/Users/venpopov/GitHub/vade-app/vade-core']['enabledMcpjsonServers']\\)\")",
       "Bash(lsof -iTCP:7600 -sTCP:LISTEN)",
       "Bash(grep -E \"claude$|tsx.*mcp\")",
       "Bash(claude mcp *)",
@@ -24,10 +22,7 @@
       "mcp__vade-canvas__queryShapes",
       "mcp__vade-canvas__updateShape",
       "Bash(git *)",
-      "Bash(curl -sI https://mcp.vade.dev/healthz)",
-      "Bash(curl -sIv https://mcp.vade.dev/healthz)",
       "Bash(curl -sI https://vade-mcp.fly.dev/healthz)",
-      "Bash(host mcp.vade.dev)",
       "Bash(host vade-mcp.fly.dev)",
       "Bash(curl -s https://vade-mcp.fly.dev/healthz)",
       "Bash(curl -sI -X GET --max-time 3 https://vade-mcp.fly.dev/sse)",
@@ -46,17 +41,14 @@
       "Bash(gh run *)",
       "Bash(gh project *)",
       "Bash(python3 -c \"import sys,json;d=json.load\\(sys.stdin\\);[print\\(i['content']['number'],i['id'],i.get\\('status','?'\\),i['content']['title']\\) for i in d['items'] if i.get\\('content',{}\\).get\\('number'\\) in \\(5,7,8,9,10,11\\)]\")",
-      "mcp__claude_ai_Customgithub__issue_read",
       "WebFetch(domain:github.com)",
       "Bash(gh api *)",
       "Bash(flyctl scale *)",
-      "mcp__claude_ai_tldraw__exec",
       "mcp__vade-canvas__loadCanvas",
       "Bash(mkdir -p /root/.claude/plans)",
       "Read(//root/.claude/plans/**)",
       "Bash(gh auth *)",
-      "Bash(ssh -T git@github.com)",
-      "mcp__claude_ai_Customgithub__pull_request_read"
+      "Bash(ssh -T git@github.com)"
     ]
   },
   "enableAllProjectMcpServers": true,
