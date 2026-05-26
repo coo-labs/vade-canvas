@@ -1,4 +1,5 @@
 #!/usr/bin/env tsx
+// ARCHIVED 2026-05-26: one-shot migration already run in production. Preserved for git-history reference; do not invoke.
 /**
  * One-shot migration: copy a populated local `~/.vade/library/` up to
  * the cloud-backed library behind the Worker.
