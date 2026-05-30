@@ -3,7 +3,7 @@
 Single-operator bearer-token auth for the hosted canvas and MCP
 service. **Two distinct secret values** in **four secret slots**:
 
-| Value | Fly (`vade-mcp`) | Worker (`vade-canvas`) |
+| Value | Fly (`vade-mcp`) | Worker (`vade-core`) |
 |---|---|---|
 | **Operator token** — typed into clients | `VADE_AUTH_TOKENS` (JSON `{"operator":[…],"agents":[]}`) | `OPERATOR_TOKENS` (same JSON) |
 | **Library service token** — never typed | `VADE_LIBRARY_BEARER` (hex string) | `LIBRARY_BEARER` (hex string) |
@@ -25,7 +25,7 @@ flyctl secrets set \
   VADE_OAUTH_ENABLED=1 \
   --app vade-mcp
 
-# Worker (vade-canvas; run from this repo)
+# Worker (vade-core; run from this repo)
 echo "{\"operator\":[\"$OPERATOR\"],\"agents\":[]}" | wrangler secret put OPERATOR_TOKENS
 echo "$SERVICE" | wrangler secret put LIBRARY_BEARER
 
@@ -221,7 +221,7 @@ expected (~15s on Fly side).
 
 The `vade-core-preview` Worker (one Worker, multiple subdomains via
 the `*.preview.vade-app.dev/*` wildcard route) carries its own
-secret slots, separate from the production `vade-canvas` Worker by
+secret slots, separate from the production `vade-core` Worker by
 virtue of distinct Worker names. **Use distinct token values** —
 sharing the prod operator token with preview widens the blast
 radius of a leaked preview build.
@@ -257,10 +257,10 @@ SSL-TLS settings), not via `wrangler`:
    any `https://pr-<N>.preview.vade-app.dev/` returns 503 with a
    TLS-handshake error from Cloudflare's edge.
 3. **Workers Builds production lock.** Workers & Pages →
-   `vade-canvas` → Settings → Builds → set production-branch to
+   `vade-core` → Settings → Builds → set production-branch to
    `main` only. Without this, every PR-branch push redeploys
    production (the bug that surfaced in #167).
-4. **Workers Builds preview env.** On the same `vade-canvas` build
+4. **Workers Builds preview env.** On the same `vade-core` build
    config, enable preview deployments for non-production
    branches with the build command **`npm run deploy:preview`**.
    Cloudflare provisions the `vade-core-preview` Worker on the
