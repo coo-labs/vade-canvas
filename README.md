@@ -74,10 +74,10 @@ from the preview env, so `/library/*` fails loudly there until a
 follow-up provisions a separate `vade-library-preview` bucket / D1.
 
 > **Note:** The Cloudflare Worker name itself is intentionally left
-> as `vade-core` / `vade-core-preview` — the Worker name is a
+> as `vade-canvas` / `vade-core-preview` — the Worker name is a
 > Cloudflare-side immutable binding, independent of the GitHub repo
 > name. The Git-integration source-repo binding relies on GitHub's
-> permanent redirect from `vade-app/vade-core` → `coo-labs/vade-canvas`.
+> permanent redirect from `coo-labs/vade-canvas` → `coo-labs/vade-canvas`.
 
 The `deploy:preview` script invokes `wrangler deploy --config
 wrangler.jsonc --env preview --assets ./dist/client` rather than the
@@ -117,7 +117,7 @@ CI/CD is wired via GitHub Actions (see
 Single-operator bearer model. **Two distinct secret values** across
 **four secret slots**:
 
-| Value | Fly (`vade-mcp`) | Worker (`vade-core`, name unchanged) |
+| Value | Fly (`vade-mcp`) | Worker (`vade-canvas`, name unchanged) |
 |---|---|---|
 | Operator token (typed into clients) | `VADE_AUTH_TOKENS` | `OPERATOR_TOKENS` |
 | Library service token (never typed)  | `VADE_LIBRARY_BEARER` | `LIBRARY_BEARER` |

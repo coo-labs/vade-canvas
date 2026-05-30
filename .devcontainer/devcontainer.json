@@ -1,6 +1,6 @@
 {
   "name": "vade-canvas",
-  "image": "ghcr.io/coo-labs/vade-runtime:latest",
+  "image": "ghcr.io/coo-labs/coo-harness:latest",
   "remoteUser": "node",
   "workspaceFolder": "/workspace",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",

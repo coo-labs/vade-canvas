@@ -24,7 +24,7 @@ const TldrawUiMenuItem = _TldrawUiMenuItem as unknown as FC<{
 
 // Custom MainMenu wrapping tldraw's default content + a VADE
 // auth group with a Sign-out item. Wired into tldrawComponents
-// in App.tsx. Closes vade-core#186.
+// in App.tsx. Closes #186.
 //
 // The Sign-out item triggers AuthContext.signOut() which clears
 // localStorage, disconnects the bridge, and returns the user to
