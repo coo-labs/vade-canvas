@@ -56,7 +56,7 @@ curl -fsS -H 'Accept: text/event-stream' \
 | Symptom | Likely cause | Fix |
 |---|---|---|
 | `401 Unauthorized` on `/sse` | Token missing, malformed, or rotated | Re-paste the current operator token from 1Password. Tokens prefixed `vade_at_` are OAuth tokens — they only travel via the Claude.ai connector flow, not raw bearer headers. |
-| `404 Not Found` on `/sse` | Wrong endpoint or stale doc | Use `https://mcp.vade-app.dev/sse` exactly. Earlier drafts referenced `mcp.vade.dev/sse` — that host does not exist; vade-coo-memory#11. |
+| `404 Not Found` on `/sse` | Wrong endpoint or stale doc | Use `https://mcp.vade-app.dev/sse` exactly. Earlier drafts referenced `mcp.vade.dev/sse` — that host does not exist; coo-labs/coo-memory#11. |
 | WebSocket disconnects in a loop | Token mismatch between Worker and Fly stores | Operator token must be identical in Worker `OPERATOR_TOKENS` and Fly `VADE_AUTH_TOKENS`. See [`docs/auth.md` § Inspect current state](auth.md#inspect-current-state). |
 | Tools never appear after restart | Claude Code didn't reload the config | Fully quit and relaunch (not just close the window). Confirm with `claude mcp list`. |
 | `redirect_uri must use https` (Claude.ai connector flow) | OAuth issue, not bearer-token | See [`docs/auth.md` § Claude.ai (custom connector, OAuth)](auth.md#claudeai-custom-connector-oauth). |

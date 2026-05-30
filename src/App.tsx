@@ -184,7 +184,7 @@ export default function App() {
   }, [bridge])
 
   // Custom MenuPanel hosts tldraw's default top-left menu group plus
-  // the Catalog and Canvas toggles (vade-core#182). MainMenu adds a
+  // the Catalog and Canvas toggles (#182). MainMenu adds a
   // Sign-out item to tldraw's default menu (#186). SharePanel hosts
   // the connection-status dot in the top-right slot — moved off the
   // bottom-right floating-pill spot that overlapped tldraw's

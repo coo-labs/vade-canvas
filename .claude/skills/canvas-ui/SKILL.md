@@ -1,6 +1,6 @@
 ---
 name: canvas-ui
-description: Apply vade-core's canvas/tldraw frontend conventions and avoid the recurring landmines we've already learned about. Use this skill whenever you're working in vade-core on anything that touches the canvas — adding or modifying a custom shape under `src/shapes/`, wiring UI through `src/shell/AppShell.tsx`, mutating shapes through the MCP bridge in `src/bridge/`, the `vade-asset-store`, snapshot persistence, the library/catalog/shape-panel surfaces, or anywhere else `tldraw` or `@tldraw/*` is imported. Trigger even when the prompt only mentions "the canvas," "a shape," "AppShell," "persistenceKey," "asset store," "TLAssetStore," "ShapeUtil," "BindingUtil," "snapshot," "the editor," or "tldraw" without naming the skill — and especially trigger before opening a PR that changes any tldraw-touching file. This skill is the anti-patterns and conventions layer; for SDK reference / doc URLs, also consult the `tldraw-docs` skill (the two compose).
+description: Apply vade-canvas's canvas/tldraw frontend conventions and avoid the recurring landmines we've already learned about. Use this skill whenever you're working in vade-canvas on anything that touches the canvas — adding or modifying a custom shape under `src/shapes/`, wiring UI through `src/shell/AppShell.tsx`, mutating shapes through the MCP bridge in `src/bridge/`, the `vade-asset-store`, snapshot persistence, the library/catalog/shape-panel surfaces, or anywhere else `tldraw` or `@tldraw/*` is imported. Trigger even when the prompt only mentions "the canvas," "a shape," "AppShell," "persistenceKey," "asset store," "TLAssetStore," "ShapeUtil," "BindingUtil," "snapshot," "the editor," or "tldraw" without naming the skill — and especially trigger before opening a PR that changes any tldraw-touching file. This skill is the anti-patterns and conventions layer; for SDK reference / doc URLs, also consult the `tldraw-docs` skill (the two compose).
 metadata:
   type: reference
   vendoring: custom
@@ -8,7 +8,7 @@ metadata:
 
 # canvas-ui
 
-This skill encodes what the `vade-core` codebase has already learned about working with tldraw — the conventions that exist, and the same-day hot-fix patterns we've burned cycles on. It is the *patterns* layer; the sister skill `tldraw-docs` is the *docs URL navigation* layer. Use both: this one tells you what shape good code takes here and which mistakes to pre-empt; `tldraw-docs` tells you exactly which page to fetch when you need an API signature or feature mental model.
+This skill encodes what the `vade-canvas` codebase has already learned about working with tldraw — the conventions that exist, and the same-day hot-fix patterns we've burned cycles on. It is the *patterns* layer; the sister skill `tldraw-docs` is the *docs URL navigation* layer. Use both: this one tells you what shape good code takes here and which mistakes to pre-empt; `tldraw-docs` tells you exactly which page to fetch when you need an API signature or feature mental model.
 
 The repo runs `tldraw ^4.5.10`, React 18, TypeScript strict. The core architectural commitment is canvas as primary surface, with a Cloudflare Worker hosting the SPA and an MCP bridge mutating shapes via WebSocket on `:7600`. That commitment shapes every decision below.
 
@@ -180,5 +180,5 @@ When in doubt about a method signature or the current shape of an API, anchor th
 ## What this skill is *not*
 
 - Not a tldraw tutorial — read the SDK feature pages or the `tldraw-docs` skill for that.
-- Not a substitute for reading the code in `src/`. Patterns evolve; the live code is authoritative. When you find a divergence between this skill and current `src/`, the skill is stale and should be patched (open a PR to `vade-core` updating this file).
+- Not a substitute for reading the code in `src/`. Patterns evolve; the live code is authoritative. When you find a divergence between this skill and current `src/`, the skill is stale and should be patched (open a PR to `vade-canvas` updating this file).
 - Not a list of every convention in the codebase — just the ones with concrete failure modes already in our PR history. New patterns earn a section here once they've cost us a hot-fix.

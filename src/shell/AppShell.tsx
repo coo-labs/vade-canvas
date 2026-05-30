@@ -22,7 +22,7 @@ interface AppShellProps {
 // fullpage overlay), the library panel (right sidebar with snapshot
 // history), the selected-shape param panel, and the catalog/library
 // toggles that live inside tldraw's MenuPanel slot (MenuPanel.tsx,
-// vade-core#182).
+// #182).
 //
 // Owns:
 // - Catalog state (closed | sidebar | fullpage)
