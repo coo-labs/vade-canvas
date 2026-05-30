@@ -1,6 +1,9 @@
 ---
 name: canvas-ui
 description: Apply vade-core's canvas/tldraw frontend conventions and avoid the recurring landmines we've already learned about. Use this skill whenever you're working in vade-core on anything that touches the canvas — adding or modifying a custom shape under `src/shapes/`, wiring UI through `src/shell/AppShell.tsx`, mutating shapes through the MCP bridge in `src/bridge/`, the `vade-asset-store`, snapshot persistence, the library/catalog/shape-panel surfaces, or anywhere else `tldraw` or `@tldraw/*` is imported. Trigger even when the prompt only mentions "the canvas," "a shape," "AppShell," "persistenceKey," "asset store," "TLAssetStore," "ShapeUtil," "BindingUtil," "snapshot," "the editor," or "tldraw" without naming the skill — and especially trigger before opening a PR that changes any tldraw-touching file. This skill is the anti-patterns and conventions layer; for SDK reference / doc URLs, also consult the `tldraw-docs` skill (the two compose).
+metadata:
+  type: reference
+  vendoring: custom
 ---
 
 # canvas-ui
