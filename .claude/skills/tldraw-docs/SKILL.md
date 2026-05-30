@@ -1,6 +1,9 @@
 ---
 name: tldraw-docs
 description: Navigate the tldraw SDK documentation efficiently. Use this skill whenever a task involves the tldraw canvas SDK — including the Editor class, shape utils, custom shapes, bindings, tools, persistence, side effects, the store/signals system, sync, UI components, or any tldraw.dev reference. This includes any work in the vade-core repo, which is built on tldraw. tldraw publishes LLM-optimized markdown bundles at tldraw.dev/llms*.txt plus markdown-ready individual pages; this skill teaches which bundle to fetch and how to navigate so agents don't hallucinate API signatures, grab the full mega-bundle when a narrow fetch would do, or guess at topic names that don't exist. Trigger whenever the user mentions tldraw, canvas shapes, ShapeUtil, BindingUtil, tldraw editor, custom tool, snapshot, or is clearly working in a tldraw-based codebase even if they don't name "tldraw" explicitly.
+metadata:
+  type: documentation
+  vendoring: custom
 ---
 
 # tldraw-docs
