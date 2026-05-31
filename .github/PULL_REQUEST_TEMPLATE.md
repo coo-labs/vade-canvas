@@ -1,5 +1,5 @@
 <!--
-  Issue / PR hygiene checklist (Patterns A–D from coo/operations/issue-pr-hygiene.md).
+  Issue / PR hygiene checklist (Patterns A–D from operations/issue-pr-hygiene.md).
   The hygiene workflow validates this body on PR open/sync. Pattern B (closing
   keywords) is advisory in this repo (BLOCKING in coo-labs/coo-memory only,
   pending betterment-cadence promotion per briefing-014); A/C/D are advisory.
@@ -19,7 +19,7 @@
        Closes: n/a                         (no issue resolved)
 
      NEVER use `Closes coo-memory#N` (no `coo-labs/` prefix) — it
-     autolinks but does NOT auto-close. See coo/operations/issue-pr-hygiene.md.
+     autolinks but does NOT auto-close. See operations/issue-pr-hygiene.md.
 
      For multiple issues, ONE `Closes` LINE PER ISSUE — comma-lists
      silently fail (only the first ref auto-closes):
