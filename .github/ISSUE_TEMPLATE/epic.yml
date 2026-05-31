@@ -13,7 +13,7 @@ body:
         each child issue (or use the GraphQL `addSubIssue` mutation).
 
         Native sub-issue linkage is **required** for Epic-type issues per
-        [`coo/operations/issue-pr-hygiene.md`](https://github.com/coo-labs/coo-memory/blob/main/coo/operations/issue-pr-hygiene.md) —
+        [`operations/issue-pr-hygiene.md`](https://github.com/coo-labs/coo-memory/blob/main/operations/issue-pr-hygiene.md) —
         markdown checklists of `#N` references in the epic body are insufficient
         because they're invisible to GraphQL queries and the project board's
         tracker UI.
