@@ -7,7 +7,7 @@ name: Auto-merge sync PR
 # (coo-memory#939).
 #
 # Canonical reusable: coo-labs/coo-harness/.github/workflows/auto-merge-sync-pr-reusable.yml
-# Ops doc row: vade-coo-memory/coo/operations/workflow-centralization.md.
+# Ops doc row: coo-memory/operations/workflow-centralization.md.
 
 on:
   pull_request:
