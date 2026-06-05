@@ -100,7 +100,7 @@ Claude Code on the web sessions push through a scoped-down git
 proxy. Two failure shapes recur:
 
 - **Proxy-class 403** (intermittent, often on the second push of a
-  session). `vade-runtime/scripts/git-shim.sh` +
+  session). `coo-harness/scripts/git-shim.sh` +
   `git-push-with-fallback.sh` handle this automatically — they
   retry once via the direct github.com URL with the PAT selected
   by remote owner (`GITHUB_MCP_PAT` for `coo-labs/*`,
@@ -115,7 +115,7 @@ proxy. Two failure shapes recur:
   session to their local Claude Code and finish the push from there
   — typically with `git push git@github.com:OWNER/REPO.git BRANCH`.
   SSH key auth bypasses the OAuth-app scope restriction entirely.
-  The unblock for vade-core PR #49 (workflow files) on 2026-04-20
+  The unblock for vade-canvas#49 (workflow files) on 2026-04-20
   is the canonical example.
 
 ## Current state
