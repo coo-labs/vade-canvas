@@ -1,3 +1,5 @@
+<!-- migration-sweep: skip — `vade-core` references on lines ~68, 77, 80, 120 are the immutable Cloudflare Worker name (the README itself documents that the Worker name is "intentionally left as `vade-core`" because Cloudflare names are immutable, independent of the GitHub repo rename). Whole-file exempt for that reason. -->
+
 # vade-canvas
 
 [![mcp-deploy](https://github.com/coo-labs/vade-canvas/actions/workflows/mcp-deploy.yml/badge.svg)](https://github.com/coo-labs/vade-canvas/actions/workflows/mcp-deploy.yml)

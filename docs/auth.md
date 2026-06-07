@@ -1,3 +1,5 @@
+<!-- migration-sweep: skip — every `vade-core` reference here points to the immutable Cloudflare Worker name (Cloudflare resource names are independent of the GitHub repo rename; see README §"Note: The Cloudflare Worker name itself is intentionally left as `vade-core`"). Whole-file exempt for the same reason as the README. -->
+
 # Authentication
 
 Single-operator bearer-token auth for the hosted canvas and MCP
