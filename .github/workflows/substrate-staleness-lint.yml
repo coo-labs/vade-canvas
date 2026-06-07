@@ -1,0 +1,26 @@
+name: Substrate staleness lint
+
+# Thin trigger — fires on PR events and delegates to the canonical
+# reusable workflow at coo-labs/coo-harness/.github/workflows/substrate-staleness-lint-reusable.yml.
+#
+# Per coo-memory/operations/ci-strategy.md G2 (drift-watch). Synchronized
+# arc across 9 active siblings per coo-memory#1219 locked design item 2
+# (F7 reusable + thin triggers).
+#
+# Edit the canonical reusable, not this thin trigger.
+
+on:
+  pull_request:
+    # `synchronize` IS needed — file contents change on new commits.
+    # (Distinct from issue-pr-hygiene which drops synchronize because
+    # it inspects PR title/body only.)
+    types: [opened, edited, reopened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  lint:
+    uses: coo-labs/coo-harness/.github/workflows/substrate-staleness-lint-reusable.yml@main
+    secrets: inherit
